@@ -95,7 +95,7 @@ async def stream_continuedev_response(request: Request):
     Continuedev streaming endpoint service
     """
 
-    continue_dev_second_request_prompt = ""
+    continue_dev_second_request_prompt = '[INST] ""\n\nPlease write a short title summarizing the message quoted above. Use no more than 10 words: [/INST]'
 
     try:
         # capturing prompt context
@@ -110,13 +110,14 @@ async def stream_continuedev_response(request: Request):
         print(user_prompt_question)
 
         # NOTE: capturing the continuedev second summarizing request prompt
-        # if request_data["template"] == continue_dev_second_request_prompt:
-        #     return StreamingResponse(
-        #         content=generate_fake_llm_reesponse(), media_type="application/json"
-        #     )
+        if request_data["template"] == continue_dev_second_request_prompt:
+            return StreamingResponse(
+                content=generate_fake_llm_reesponse(), media_type="application/json"
+            )
 
         # initiating the bot here
         # currently using a fake llm_response
+
         output = {
             "answer": "As white light passes through our atmosphere, tiny air molecules cause it to scatter. The scattering caused by these tiny air molecules (known as Rayleigh scattering) increases as the wavelength of light decreases. Violet and blue light have the shortest wavelengths and red light has the longest. Therefore, blue light is scattered more than red light and the sky appears blue during the day. When the Sun is low in the sky during sunrise and sunset, the light has to travel further through the Earths atmosphere."
         }
