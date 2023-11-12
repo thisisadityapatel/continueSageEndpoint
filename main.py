@@ -3,8 +3,14 @@ import json
 import asyncio
 from fastapi.responses import StreamingResponse
 import logging
+import os
+from chatbot import initiate_llm, initiate_llm_chain, run_llm_chain
 
 app = FastAPI()
+
+region = os.environ["AWS_REGION"]
+endpoint_name = os.environ["MISTRAL_AWS_ENDPOINT"]
+
 
 
 def break_llm_output_string(response: str):
@@ -107,8 +113,6 @@ async def stream_continuedev_response(request: Request):
             request_data["template"].split("[INST]")[:-1]
         )
 
-        print(user_prompt_question)
-
         # NOTE: capturing the continuedev second summarizing request prompt
         if request_data["template"] == continue_dev_second_request_prompt:
             return StreamingResponse(
@@ -116,12 +120,12 @@ async def stream_continuedev_response(request: Request):
             )
 
         # initiating the bot here
-        # currently using a fake llm_response
-
+        bot = initiate_llm_chain()
         output = {
-            "answer": "As white light passes through our atmosphere, tiny air molecules cause it to scatter. The scattering caused by these tiny air molecules (known as Rayleigh scattering) increases as the wavelength of light decreases. Violet and blue light have the shortest wavelengths and red light has the longest. Therefore, blue light is scattered more than red light and the sky appears blue during the day. When the Sun is low in the sky during sunrise and sunset, the light has to travel further through the Earths atmosphere."
+            "answer": run_llm_chain(bot, user_prompt_question)
         }
-
+        
+        # printing the output
         print(output["answer"])
 
         return StreamingResponse(
