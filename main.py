@@ -1,7 +1,8 @@
-from fastapi import Request, FastAPI, WebSocket
+from fastapi import Request, FastAPI
 import json
 import asyncio
 from fastapi.responses import StreamingResponse
+import logging
 
 app = FastAPI()
 
