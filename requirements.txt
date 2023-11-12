@@ -1,0 +1,4 @@
+langchain==0.0.335
+fastapi==0.103.2
+uvicorn==0.23.2
+sagemaker==2.186.0
