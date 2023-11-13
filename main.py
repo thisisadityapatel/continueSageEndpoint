@@ -38,8 +38,6 @@ async def generate_llm_continuedev_stream(answer: str):
             "done": False,
         }
 
-        print(json_stream_chunk)
-
         yield json.dumps(json_stream_chunk) + "\n"
         await asyncio.sleep(
             0.01
@@ -59,8 +57,6 @@ async def generate_llm_continuedev_stream(answer: str):
         "eval_count": 0,
         "eval_duration": 0,
     }
-
-    print(json_stream_chunk)
 
     yield json.dumps(json_stream_chunk) + "\n"
     await asyncio.sleep(
@@ -120,9 +116,6 @@ async def stream_continuedev_response(request: Request):
         # bot = initiate_llm_chain()
         # output = {"answer": run_llm_chain(bot, user_prompt_question)}
         output = "This sentence is written by the LLM. This is only for testing purpose"
-
-        # printing the output
-        print(output)
 
         return StreamingResponse(
             content=generate_llm_continuedev_stream(output),
