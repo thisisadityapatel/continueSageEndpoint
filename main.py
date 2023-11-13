@@ -2,8 +2,7 @@ from fastapi import Request, FastAPI
 import json
 import asyncio
 from fastapi.responses import StreamingResponse
-
-# from chatbot import initiate_llm, initiate_llm_chain, run_llm_chain
+from sagemakerbot import SagemakeChatbot
 
 app = FastAPI()
 

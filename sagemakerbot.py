@@ -1,7 +1,6 @@
 from langchain.chains import LLMChain
 from langchain.llms import SagemakerEndpoint
 from langchain.prompts import PromptTemplate
-from langchain.llms.sagemaker_endpoint import LLMContentHandler
 from contentHandler import ContentHandler
 
 
