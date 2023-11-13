@@ -119,7 +119,7 @@ async def stream_continuedev_response(request: Request):
         # initiating the bot here
         # bot = initiate_llm_chain()
         # output = {"answer": run_llm_chain(bot, user_prompt_question)}
-        output = "Testing the llm output this is not reat response."
+        output = "This sentence is written by the LLM. This is only for testing purpose"
 
         # printing the output
         print(output)
@@ -130,6 +130,6 @@ async def stream_continuedev_response(request: Request):
         )
 
     except json.JSONDecodeError:
-        return {"error": "Invalid JSON format int the request body"}
+        return {"error": "Invalid JSON format in the request body"}
     except KeyError as e:
         return {"error": f"Missing key: {e}"}
