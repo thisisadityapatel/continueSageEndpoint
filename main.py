@@ -2,15 +2,10 @@ from fastapi import Request, FastAPI
 import json
 import asyncio
 from fastapi.responses import StreamingResponse
-import logging
-import os
-from chatbot import initiate_llm, initiate_llm_chain, run_llm_chain
+
+# from chatbot import initiate_llm, initiate_llm_chain, run_llm_chain
 
 app = FastAPI()
-
-region = os.environ["AWS_REGION"]
-endpoint_name = os.environ["MISTRAL_AWS_ENDPOINT"]
-
 
 
 def break_llm_output_string(response: str):
@@ -34,7 +29,7 @@ async def generate_llm_continuedev_stream(answer: str):
     Function takes a string as input, converts it into smaller chunks and streams it
     """
     # convert the stream into streamable chunks
-    answer_output = break_llm_output_string(response=answer)
+    answer_output = break_llm_output_string(answer)
 
     for i in range(len(answer_output)):
         json_stream_chunk = {
@@ -66,6 +61,8 @@ async def generate_llm_continuedev_stream(answer: str):
         "eval_duration": 0,
     }
 
+    print(json_stream_chunk)
+
     yield json.dumps(json_stream_chunk) + "\n"
     await asyncio.sleep(
         0.01
@@ -89,6 +86,7 @@ async def generate_fake_llm_reesponse():
         "eval_count": 0,
         "eval_duration": 0,
     }
+
     yield json.dumps(json_stream_chunk) + "\n"
     await asyncio.sleep(
         0.01
@@ -104,8 +102,8 @@ async def stream_continuedev_response(request: Request):
     continue_dev_second_request_prompt = '[INST] ""\n\nPlease write a short title summarizing the message quoted above. Use no more than 10 words: [/INST]'
 
     try:
-        # capturing prompt context
-        request_data = json.load(await request.body())
+        # extracting chat prompt context
+        request_data = json.loads(await request.body())
         user_prompt_question = (
             request_data["template"].split("[INST]")[-1].split("[/INST]")[0].strip()
         )
@@ -120,16 +118,15 @@ async def stream_continuedev_response(request: Request):
             )
 
         # initiating the bot here
-        bot = initiate_llm_chain()
-        output = {
-            "answer": run_llm_chain(bot, user_prompt_question)
-        }
-        
+        # bot = initiate_llm_chain()
+        # output = {"answer": run_llm_chain(bot, user_prompt_question)}
+        output = "Testing the llm output this is not reat response."
+
         # printing the output
-        print(output["answer"])
+        print(output)
 
         return StreamingResponse(
-            content=generate_llm_continuedev_stream(output["answer"]),
+            content=generate_llm_continuedev_stream(output),
             media_type="application/json",
         )
 
