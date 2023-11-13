@@ -2,7 +2,7 @@ from fastapi import Request, FastAPI
 import json
 import asyncio
 from fastapi.responses import StreamingResponse
-from sagemakerbot import SagemakeChatbot
+from sagemakerbot import SagemakerChatbot
 
 app = FastAPI()
 
@@ -64,7 +64,7 @@ async def generate_llm_continuedev_stream(answer: str):
     )  # NOTE: Editable: 0.01 second delay between each streaming chunk
 
 
-async def generate_fake_llm_reesponse():
+async def generate_fake_llm_response():
     """
     Function to stream a fake LLM response
     """
@@ -109,7 +109,7 @@ async def stream_continuedev_response(request: Request):
         # NOTE: capturing the continuedev second summarizing request prompt
         if request_data["template"] == continue_dev_second_request_prompt:
             return StreamingResponse(
-                content=generate_fake_llm_reesponse(), media_type="application/json"
+                content=generate_fake_llm_response(), media_type="application/json"
             )
 
         # initiating the bot here

@@ -4,7 +4,7 @@ from langchain.prompts import PromptTemplate
 from contentHandler import ContentHandler
 
 
-class SagemakeChatbot:
+class SagemakerChatbot:
     def __init__(
         self, 
         endpoint_name, 
