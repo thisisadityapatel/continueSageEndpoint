@@ -111,7 +111,7 @@ async def stream_continuedev_response(request: Request):
             request_data["template"].split("[INST]")[:-1]
         )
 
-        # NOTE: capturing the continuedev second summarizing request prompt
+        # NOTE: capturing the continuedev second summarizing request prompt and overriding it
         if request_data["template"] == continue_dev_second_request_prompt:
             return StreamingResponse(
                 content=generate_fake_llm_response(), media_type="application/json"

@@ -6,7 +6,12 @@ from contentHandler import ContentHandler
 
 class SagemakerChatbot:
     def __init__(
-        self, endpoint_name, region_name, prompt_template=None, content_handler=None, model_kwargs=None
+        self,
+        endpoint_name,
+        region_name,
+        prompt_template=None,
+        content_handler=None,
+        model_kwargs=None,
     ):
         self.endpoint_name = endpoint_name
         self.region_name = region_name
