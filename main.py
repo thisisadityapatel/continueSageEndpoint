@@ -122,7 +122,9 @@ async def stream_continuedev_response(request: Request):
             endpoint_name=AWS_ENDPOINT_NAME, region_name=AWS_REGION_NAME
         )
 
-        output = sagemaker_bot.chat(chat_context=user_chat_context, question=user_prompt_question)
+        output = sagemaker_bot.chat(
+            chat_context=user_chat_context, question=user_prompt_question
+        )
 
         # Streaming the output string
         return StreamingResponse(
