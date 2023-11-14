@@ -6,12 +6,13 @@ from contentHandler import ContentHandler
 
 class SagemakerChatbot:
     def __init__(
-        self, endpoint_name, region_name, prompt_template=None, content_handler=None
+        self, endpoint_name, region_name, prompt_template=None, content_handler=None, model_kwargs=None
     ):
         self.endpoint_name = endpoint_name
         self.region_name = region_name
-        self.prompt_template = prompt_template or self._default_prompt_template()
-        self.content_handler = content_handler or self._default_content_handler()
+        self.prompt_template = prompt_template or self._default_prompt_template
+        self.content_handler = content_handler or self._default_content_handler
+        self.model_kwargs = model_kwargs or self._default_model_kwargs
         self.llm = self.initiate_llm()
         self.llm_chain = self.initiate_llm_chain()
 
@@ -19,7 +20,7 @@ class SagemakerChatbot:
         llm = SagemakerEndpoint(
             endpoint_name=self.endpoint_name,
             region_name=self.region_name,
-            model_kwargs={"max_new_tokens": 600, "top_p": 0.9, "temperature": 0.4},
+            model_kwargs=self.model_kwargs,
             endpoint_kwargs={"CustomAttributes": "accept_eula=true"},
             content_handler=self.content_handler,
         )
@@ -36,11 +37,15 @@ class SagemakerChatbot:
         return output.strip()
 
     @property
-    def _default_prompt_template():
+    def _default_model_kwargs(self):
+        return {"max_new_tokens": 600, "top_p": 0.9, "temperature": 0.4}
+
+    @property
+    def _default_prompt_template(self):
         prompt = """<s>[INST]You are an intelligent programmer bot that is specialized in answering programming questions, writing code, and also helping with documentation. Answer the questions considering the chat history with the user that is provided.[/INST]</s> \n\n Here is the past chat history with the user: {continuedev_chat_context} \n\n Here is the question that is to be answered: {question}"""
         prompt_template = PromptTemplate.from_template(prompt)
         return prompt_template
 
     @property
-    def _default_content_handler():
+    def _default_content_handler(self):
         return ContentHandler()
