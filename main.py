@@ -121,12 +121,12 @@ async def stream_continuedev_response(request: Request):
         sagemaker_bot = SagemakerChatbot(
             endpoint_name=AWS_ENDPOINT_NAME, region_name=AWS_REGION_NAME
         )
-
+        
         output = sagemaker_bot.chat(
             chat_context=user_chat_context, question=user_prompt_question
         )
 
-        # Streaming the output string
+        # Streaming the llm response
         return StreamingResponse(
             content=generate_llm_continuedev_stream(output),
             media_type="application/json",
