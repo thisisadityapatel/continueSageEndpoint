@@ -9,12 +9,7 @@ class ContentHandler(LLMContentHandler):
     def transform_input(self, prompt: str, model_kwargs: dict) -> bytes:
         input_str = json.dumps(
             {
-                "inputs": [
-                    [
-                        {"role": "system", "content": "You are a kind robot."},
-                        {"role": "user", "content": prompt},
-                    ]
-                ],
+                "inputs": prompt,
                 "parameters": {**model_kwargs},
             }
         )
@@ -22,4 +17,4 @@ class ContentHandler(LLMContentHandler):
 
     def transform_output(self, output: bytes) -> str:
         response_json = json.loads(output.read().decode("utf-8"))
-        return response_json[0]["generation"]["content"]
+        return response_json[0]["generated_text"]

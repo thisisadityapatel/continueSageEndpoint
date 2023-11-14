@@ -3,6 +3,11 @@ import json
 import asyncio
 from fastapi.responses import StreamingResponse
 from sagemakerbot import SagemakerChatbot
+import os
+
+# sourcing AWS environment variables
+AWS_ENDPOINT_NAME = os.environ["ENDPOINT_NAME_MISTRAL"]
+AWS_REGION_NAME = os.environ["REGION_NAME"]
 
 app = FastAPI()
 
@@ -102,7 +107,7 @@ async def stream_continuedev_response(request: Request):
         user_prompt_question = (
             request_data["template"].split("[INST]")[-1].split("[/INST]")[0].strip()
         )
-        user_chat_chain_context = ("[INST]").join(
+        user_chat_context = ("[INST]").join(
             request_data["template"].split("[INST]")[:-1]
         )
 
@@ -112,11 +117,14 @@ async def stream_continuedev_response(request: Request):
                 content=generate_fake_llm_response(), media_type="application/json"
             )
 
-        # initiating the bot here
-        # bot = initiate_llm_chain()
-        # output = {"answer": run_llm_chain(bot, user_prompt_question)}
-        output = "This sentence is written by the LLM. This is only for testing purpose"
+        # Initiating the sagemaker chain
+        sagemaker_bot = SagemakerChatbot(
+            endpoint_name=AWS_ENDPOINT_NAME, region_name=AWS_REGION_NAME
+        )
 
+        output = sagemaker_bot.chat(chat_context=user_chat_context, question=user_prompt_question)
+
+        # Streaming the output string
         return StreamingResponse(
             content=generate_llm_continuedev_stream(output),
             media_type="application/json",

@@ -6,11 +6,7 @@ from contentHandler import ContentHandler
 
 class SagemakerChatbot:
     def __init__(
-        self, 
-        endpoint_name, 
-        region_name, 
-        prompt_template=None, 
-        content_handler=None
+        self, endpoint_name, region_name, prompt_template=None, content_handler=None
     ):
         self.endpoint_name = endpoint_name
         self.region_name = region_name
@@ -23,7 +19,7 @@ class SagemakerChatbot:
         llm = SagemakerEndpoint(
             endpoint_name=self.endpoint_name,
             region_name=self.region_name,
-            model_kwargs={"max_new_tokens": 700, "top_p": 0.9, "temperature": 0.6},
+            model_kwargs={"max_new_tokens": 600, "top_p": 0.9, "temperature": 0.4},
             endpoint_kwargs={"CustomAttributes": "accept_eula=true"},
             content_handler=self.content_handler,
         )
@@ -33,19 +29,15 @@ class SagemakerChatbot:
         llm_chain = LLMChain(llm=self.llm, prompt=self.prompt_template)
         return llm_chain
 
-    def chat(self, question):
-        output = self.llm_chain.run({f"{question}"})
-        return output
+    def chat(self, chat_context, question):
+        output = self.llm_chain.predict(
+            continuedev_chat_context=chat_context, question=question
+        )
+        return output.strip()
 
     @property
     def _default_prompt_template():
-        prompt = """
-        <s>You are an intelligent coding assitant who's job is to help with programming problems, understanding code, documentation and explaination of software engineering concepts and frameworks. If you do not understand the question, feel free to ask questions, or simply say `Apologies, I do not understand the question`</s>
-
-        Here is the past chat history: {continuedev_chat_history}
-
-        Here is the current question: {question}
-        """
+        prompt = """<s>[INST]You are an intelligent programmer bot that is specialized in answering programming questions, writing code, and also helping with documentation. Answer the questions considering the chat history with the user that is provided.[/INST]</s> \n\n Here is the past chat history with the user: {continuedev_chat_context} \n\n Here is the question that is to be answered: {question}"""
         prompt_template = PromptTemplate.from_template(prompt)
         return prompt_template
 
