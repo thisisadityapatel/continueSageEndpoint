@@ -26,3 +26,4 @@ if __name__ == "__main__":
     setup_logging()
     sslcontext = ssl.create_default_context(cafile=certifi.where())
     uvicorn.run("main:app", port=11434)
+    # Ollama servers by default run on port 11434
