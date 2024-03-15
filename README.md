@@ -1,6 +1,6 @@
 ## Continue.dev Sagemaker Endpoint
 
-This backend FastAPI server helps connected LLM (in my case mistral-instruct-7b and falcon 40b) models hosted on AWS Sagameker Cloud Platform to Continue.dev frontend service on local VSCode environment. It mocks a Ollama service connection to continue.dev GUI and streams the LLM response using SSE (Server Side Events) streaming connection.
+This backend FastAPI server helps connected LLMs (in my case mistral-instruct-7b and falcon 40b) hosted on AWS Sagameker Cloud Platform to Continue.dev frontend service on local VSCode environment. It mocks a Ollama service connection to continue.dev GUI and streams the LLM response using a SSE (Server Side Events) streaming network connection.
 
 ### Starting the server locally
 
