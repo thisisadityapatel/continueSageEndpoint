@@ -4,6 +4,12 @@ Backend server that helps connected LLMs (in my case Mistral-Instruct-7B and Fal
 
 Scalable to architect personalised RAG infrastructure by leveraging LangChain potential for on-prem enterpise Continue.dev services. (Under development in a different project)
 
+## ContinueDev Demo
+
+The folowing continudev server is running on MISTRAL-7B model on AWS
+
+https://github.com/thisisadityapatel/continueSageEndpoint/assets/79132756/a43126ae-706b-403d-8048-0d4b4eee61a8
+
 ### Starting the server locally
 
 Cloning the repository
