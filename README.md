@@ -1,6 +1,6 @@
 ## Continue.dev Sagemaker Endpoint
 
-Backend server that helps connecte LLMs (in my case Mistral-Instruct-7B and Falcon-40B) hosted with AWS Sagameker Cloud Platform to Continue.dev VSCode extension. It mocks a Ollama service connection to Continue.dev GUI and streams the LLM response using a SSE (Server Side Events) network streaming.
+Backend LLM inference server (in my case Mistral-Instruct-7B and Falcon-40B) hosted with AWS Sagameker Cloud Platform to Continue.dev VSCode extension. It mocks a Ollama service connection to Continue.dev GUI and streams the LLM response using a SSE (Server Side Events) network streaming.
 
 Scalable to architect personalised RAG infrastructure by leveraging LangChain potential for on-prem enterpise Continue.dev services.
 
